@@ -31,28 +31,58 @@ CREATE TABLE IF NOT EXISTS VENTAS(
        Nro_venta INT PRIMARY KEY AUTO_INCREMENT, 
        Fecha DATE,
        Importe INT,
-       Cliente VARCHAR(70)
+       Cliente INT,
+       IDPRODUCTO INT,
+       Cantidad NUMERIC
 );
 CREATE TABLE IF NOT EXISTS PRODUCTOS_VENDIDOS(
        ID_Venta INT,
        ID_Producto INT,
-       Cantidad INT,
-       
-         FOREIGN KEY (ID_Venta) REFERENCES VENTAS(Nro_venta),
-         FOREIGN KEY (ID_Producto) REFERENCES INVENTARIO(ID_Producto),
-         PRIMARY KEY (ID_Venta, ID_Producto)
-);
-CREATE TABLE IF NOT EXISTS ENVIOS(
-
+       Cantidad INT
 );
 CREATE TABLE IF NOT EXISTS PROVEEDORES(
-
+       ID_Proovedor INT PRIMARY KEY,
+       Nombre VARCHAR(70),
+       Descripcion VARCHAR(230),
+       Contacto VARCHAR(100),
+       FechaINICIOrelacion DATE,
+       ProductosSUMINISTRADOS VARCHAR(200),
+       SitioWEB VARCHAR(100)
 );
 CREATE TABLE IF NOT EXISTS COMPRAS(
-
+       ID_Compra INT PRIMARY KEY auto_increment,
+       ID_Proveedor INT,
+       ID_Producto INT,
+       Cantidad NUMERIC,
+       FECHA DATE
 );
 CREATE TABLE IF NOT EXISTS EMPLEADOS(
+       ID_Empleado INT PRIMARY KEY auto_increment,
+       Nombre VARCHAR(30),
+       Apellido VARCHAR(30),
+       FechaNACIMIENTO DATE,
+       FechaINGRESO DATE,
+       Puesto_ocupado VARCHAR(30)
+);
+CREATE TABLE IF NOT EXISTS PRODUCTOS_INVENTARIO(
+       ID_Producto INT,
+       ID_Categoria INT,
+       Marca VARCHAR(40),
+       Descripcion VARCHAR(100),
+       Cantidad NUMERIC
+);
+CREATE TABLE IF NOT EXISTS CLIENTES(
+       ID_Cliente INT PRIMARY KEY AUTO_INCREMENT,
+       Nombre VARCHAR(30),
+       Apellido VARCHAR(30),
+       FechaNacimiento DATE, 
+       DNI NUMERIC(8)
+);
 
-);
-CREATE TABLE IF NOT EXISTS INVENTARIO(
-);
+ALTER TABLE PRODUCTOS_VENDIDOS 
+ADD CONSTRAINT fk_ventas
+         FOREIGN KEY (ID_Venta) REFERENCES VENTAS(Nro_venta);
+         
+ALTER TABLE COMPRAS
+ADD CONSTRAINT fk_proveedor
+FOREIGN KEY (ID_Proveedor) REFERENCES PROVEEDORES (ID_Proovedor);
