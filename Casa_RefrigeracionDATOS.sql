@@ -4,7 +4,6 @@ SELECT * FROM CATEGORIAS;
  SELECT * FROM EMPLEADOS;
   SELECT * FROM NEGOCIO;
   SELECT * FROM PRODUCTOS;
-  SELECT * FROM PRODUCTOS_INVENTARIO;
   SELECT * FROM PRODUCTOS_VENDIDOS;
   SELECT * FROM PROVEEDORES;
   SELECT * FROM VENTAS;
@@ -20,6 +19,7 @@ SELECT * FROM VENTAS;
 SELECT * FROM CLIENTES;
 SELECT * FROM PRODUCTOS_INVENTARIO;
 SELECT * FROM PRODUCTOS;
+SELECT * FROM COMPRAS;
 
 USE CASA_REFRIGERACION;
 SET FOREING_KEY_CHECKS = 0;
@@ -46,7 +46,8 @@ INSERT INTO CLIENTES VALUES
                               ("08","Eduardo","Garcia","1997-05-21","78506562"),
                                ("09","Luis","Cruz","1996-04-28","43226114"),
                                 ("10","Daniel","Ramirez","1999-06-04","84829396");
-                                 
+ 
+SET FOREIGN_KEY_CHECKS = 0;                          
 INSERT INTO COMPRAS (ID_Proveedor, ID_Producto, Cantidad, FECHA)
 VALUES 
     (16, 38, 20, '2024-01-01'),
@@ -99,49 +100,50 @@ INSERT INTO EMPLEADOS VALUES
                       ("05","Nicolas","Hernandez","1979-12-31","2021-04-23","Encargado de pedidos"),
                        ("06","Julian","Gutierrez","1981-05-20","2022-07-16","Control Stock"),
                         ("07","Lorenzo","Sosa","2003-10-17","2024-01-05","Armado de pedidos");
-                        
+
+SET FOREIGN_KEY_CHECKS = 0;
 INSERT INTO NEGOCIO VALUES
-                      ("FALCAR Refrigeracion","817-3566542395935","2021-01-20","Refrigeracion","Alem 1530, MG","falcarrefrigeracion@hotmail.com","1180052347");
+                      ("FALCAR Refrigeracion","817-3566542395935","01","2021-01-20","Refrigeracion","Alem 1530, MG","falcarrefrigeracion@hotmail.com","1180052347");
                       
 INSERT INTO PRODUCTOS VALUES
-                      ("01","Embraco","Motocompresor EMBRACO 220V 50hz 1/10hp R134a/R600 para heladera","3","513307070","93000"),
-                       ("02","Embraco","Motocompresor EMBRACO 220V 50/60HZ 1/8hp R600/134a","3","EM18220HG","100000"),
-                        ("03","Bluestar","Motocompresor GMCC 220V 50/60Hz 1/4hp R600/134a","3","BLUE14600KLW","147000"),
-                         ("04","Bluestar","Motocompresor GMCC 220V 50Hz R410 3000fr para A/C","3","ASM135V-1VD2-","192000"),
-                          ("05","Tecumseh","Motocompresor TECUMSEH 220V 50/60Hz R600 1/5Php","3","TA1360M-FZ1A-R600","155000"),
-                           ("06","Value","Bomba de vacio VALUE 70L/min 1/4hp 7kg 250ml aceite","1","VE225N-PRO-70L","268000"),
-                            ("07","Value","Bomba de vacio VALUE 126L/min 1/3hp 8.5kg 250ml aceite","1","VE245N-PRO-126L","345000"),
-                             ("08","Value","Cortadora VALUE 4-28mm (1/4 - 1, 1/8)","1","VTC-28B-32","23000"),
-                              ("09","Chemours","Garrafa 13,60kg gas refrigerante R410/r134a/R600","2","FREON 134a","360000"),
-                               ("10","Necton","Lata gas refrigerante 650gr R410/r134a/R600/r141","2","Necton650410a","29300"),
-                                ("11","Worthinton","Garrafa descartable gas para soldar 400grs","2","BERNZ-MAPP-MDC-1316*C","22500"),
-                                 ("12","Harrinson","Varilla para soldar HARRINSON plata 0%","2","HARRINSON0%","54000"),
-                                  ("13","Harrinson","Varilla para soldar HARRINSON5% ","2","HaRRY5%","60000"),
-                                   ("14","Harry","Varilla para soldar zincaflux fundente","2","Zincafluxf","6000"),
-                                    ("15","Tacsa","Cinta TACSA 20mm x 70m varios colores","2","TACSA","3500"),
-                                     ("16","Nacional","2X Mensula 70kg","4","MEN70","17000"),
-                                      ("17","Nacional","2X Mensula 90kg","4","MEN90","20000"),
-                                       ("18","Nacional","2X Mensula 120kg","4","MEN120","30000"),
-                                        ("19","Nacional","2X Mensula 180kg","4","MEN180","40000"),
-                                         ("20","El Trebol","Cable tipo taller 3x1,5mm/ 3x2,5mm/ 5x1,5mm","4","CABLE","1500"),
-                                          ("21","Nacional","Manguera de desague","4","MAN463","2000"),
-                                           ("22","Nacional","Aislacion 1/4, 3/4, 3/8, 1/2, 5/8","5","AIS14","1200"),
-                                            ("23","Nacional","Caño de cobre 1/4, 3/4, 3/8, 1/2 y 5/8","5","COBRE","1500"),
-                                             ("24","Nacional","Tuercas","5","Tuercas","1000"),
-                                              ("25","Bluestar","Espejo inspeccion","1","BLUEspejo","8000"),
-                                               ("26","VARIAS","Plaqueta electroncia A/C","6","PCB","40000"),
-                                                ("27","VARIAS","Turbina plastica","6","TURbina","10000"),
-                                                 ("28","VARIAS","Motores varias potencias y marcas","6","M0tor","60000"),
-                                                  ("29","NACIONAL","Valvula 3 vias","7","VAL3","15000"), 
-                                                   ("30","Sanhua","Valvula inversora","7","Inversora","71000"),
-                                                    ("31","Bluestar","Filtro molecular 10gr","8","FIL","5000"),
-                                                     ("32","Bluestar","Sensor de temperatura","9","Sensor","3000"),
-                                                      ("33","Elitech","Termometro digital (-50 +70c)","10","TMP10","6500"),
-                                                       ("34","Bluestar","Manifold analogico","10","MNFOLD","40000"),
-                                                        ("35","Testo","Manifold digital TESTO 557","10","MNFOLDDIGITAL","1000000"),
-                                                         ("36","Value","Balanza VALUE","10","VES100B-100Kg","457000"),
-                                                          ("37","Value","Pinza amperometrica VALUE","10","VMCC1","35000"),
-                                                          ("38","Uni-t","Multimetro digital","10","UNIt","43000");
+                      ("01","Embraco","Motocompresor EMBRACO 220V 50hz 1/10hp R134a/R600 para heladera","3","513307070","93000", "7"),
+                       ("02","Embraco","Motocompresor EMBRACO 220V 50/60HZ 1/8hp R600/134a","3","EM18220HG","100000","10"),
+                        ("03","Bluestar","Motocompresor GMCC 220V 50/60Hz 1/4hp R600/134a","3","BLUE14600KLW","147000", "6"),
+                         ("04","Bluestar","Motocompresor GMCC 220V 50Hz R410 3000fr para A/C","3","ASM135V-1VD2-","192000", "4"),
+                          ("05","Tecumseh","Motocompresor TECUMSEH 220V 50/60Hz R600 1/5Php","3","TA1360M-FZ1A-R600","155000", "6"),
+                           ("06","Value","Bomba de vacio VALUE 70L/min 1/4hp 7kg 250ml aceite","1","VE225N-PRO-70L","268000", "11"),
+                            ("07","Value","Bomba de vacio VALUE 126L/min 1/3hp 8.5kg 250ml aceite","1","VE245N-PRO-126L","345000", "7"),
+                             ("08","Value","Cortadora VALUE 4-28mm (1/4 - 1, 1/8)","1","VTC-28B-32","23000", "30"),
+                              ("09","Chemours","Garrafa 13,60kg gas refrigerante R410/r134a/R600","2","FREON 134a","360000", "5"),
+                               ("10","Necton","Lata gas refrigerante 650gr R410/r134a/R600/r141","2","Necton650410a","29300", "43"),
+                                ("11","Worthinton","Garrafa descartable gas para soldar 400grs","2","BERNZ-MAPP-MDC-1316*C","22500", "27"),
+                                 ("12","Harrinson","Varilla para soldar HARRINSON plata 0%","2","HARRINSON0%","54000", "27"),
+                                  ("13","Harrinson","Varilla para soldar HARRINSON5% ","2","HaRRY5%","60000", "50"),
+                                   ("14","Harry","Varilla para soldar zincaflux fundente","2","Zincafluxf","6000", "35"),
+                                    ("15","Tacsa","Cinta TACSA 20mm x 70m varios colores","2","TACSA","3500", "147"),
+                                     ("16","Nacional","2X Mensula 70kg","4","MEN70","17000", "66"),
+                                      ("17","Nacional","2X Mensula 90kg","4","MEN90","20000", "9"),
+                                       ("18","Nacional","2X Mensula 120kg","4","MEN120","30000", "30"),
+                                        ("19","Nacional","2X Mensula 180kg","4","MEN180","40000", "4"),
+                                         ("20","El Trebol","Cable tipo taller 3x1,5mm/ 3x2,5mm/ 5x1,5mm","4","CABLE","1500", "170"),
+                                          ("21","Nacional","Manguera de desague","4","MAN463","2000", "98"),
+                                           ("22","Nacional","Aislacion 1/4, 3/4, 3/8, 1/2, 5/8","5","AIS14","1200", "50"),
+                                            ("23","Nacional","Caño de cobre 1/4, 3/4, 3/8, 1/2 y 5/8","5","COBRE","1500", "127"),
+                                             ("24","Nacional","Tuercas","5","Tuercas","1000", "209"),
+                                              ("25","Bluestar","Espejo inspeccion","1","BLUEspejo","8000", "46"),
+                                               ("26","VARIAS","Plaqueta electroncia A/C","6","PCB","40000", "138"),
+                                                ("27","VARIAS","Turbina plastica","6","TURbina","10000", "80"),
+                                                 ("28","VARIAS","Motores varias potencias y marcas","6","M0tor","60000", "175"),
+                                                  ("29","NACIONAL","Valvula 3 vias","7","VAL3","15000", "22"), 
+                                                   ("30","Sanhua","Valvula inversora","7","Inversora","71000", "36"),
+                                                    ("31","Bluestar","Filtro molecular 10gr","8","FIL","5000", "56"),
+                                                     ("32","Bluestar","Sensor de temperatura","9","Sensor","3000", "77"),
+                                                      ("33","Elitech","Termometro digital (-50 +70c)","10","TMP10","6500", "82"),
+                                                       ("34","Bluestar","Manifold analogico","10","MNFOLD","40000", "41"),
+                                                        ("35","Testo","Manifold digital TESTO 557","10","MNFOLDDIGITAL","1000000", "3"),
+                                                         ("36","Value","Balanza VALUE","10","VES100B-100Kg","457000", "4"),
+                                                          ("37","Value","Pinza amperometrica VALUE","10","VMCC1","35000", "11"),
+                                                          ("38","Uni-t","Multimetro digital","10","UNIt","43000", "89");
 INSERT INTO PROVEEDORES VALUES
                        ("01","Embraco","Fabricante de motocompresores, fundada en 1971 en Brasil","embrac@hotmail.com","2024-01-01","Motocompresores", "https://www.embraco.com/es/"),
                        ("02","Nacional","Fabricantes nacionales de aislaciones,caños, mensulas, bulones y demas","1151735522, 1145322827, 1539786779","2024-01-03","Aislaciones,caños de cobre, mensulas, bulones", ""),
@@ -160,45 +162,6 @@ INSERT INTO PROVEEDORES VALUES
                                 ("15","Testo","Empresa Norteamericana","1146835050","2024-01-01","Manifold digital", "https://www.testo.com/es-AR"),
                                  ("16","Uni-t","","(86-769) 8572 3888","2024-01-01","Multimetros", "https://www.uni-trend.com/");
                                  
-INSERT INTO PRODUCTOS_INVENTARIO VALUES
-           ("1","3","Embraco","Motocompresor EMBRACO 220V 50hz 1/10hp R134a/R600 para heladera","7"),
-		   ("2","3","Embraco","Motocompresor EMBRACO 220V 50/60HZ 1/8hp R600/134a","10"),
-            ("3","3","BlueStar","Motocompresor GMCC 220v 50/60hz 1/8hp r600/134a","6"),
-             ("4","3","BlueStar","Motocompresor GMCC 220v 50Hz R410 para a/c","4"),
-              ("5","3","Tecumseh","Motocompresor TECUMSEH 220V 60Hz R600","6"),
-               ("6","1","Value","Bomba de vacio 70l/min 1/4hp 250ml aceite 7kg","11"),
-               ("7","1","Value","Bomba de vacio 126l/min 1/3hp 8,5kg 250ml","7"),
-                ("8","1","Value","Cortadora 4-28mm","30"),
-                 ("9","2","Chemours","Garrafa 13,60kg gas refrigerante R410/r134a/r600","5"),
-                  ("10","2","Necton","Lata gas refrigerante 650g R410/R134a/r600/r141","43"),
-                   ("11","2","Worthinton","Garrafa descartable gas para soldar 400g","27"),
-                    ("12","2","Harrinson","Varilla para soldar palta 0%","27"),
-                     ("13","2","Harrinson","Varilla para soldar 5%","50"),
-                      ("14","2","Harrinson","Varilla para soldar zincaflux","35"),
-                       ("15","2","Tacsa","Cinta tacsa 20x70mm","147"),
-                        ("16","4","Nacional","Mensula 70kg","66"),
-                         ("17","4","Nacional","Mensula 90kg","9"),
-                          ("18","4","Nacional","Mensula 120kg","30"),
-                           ("19","4","Nacional","Mensula 180kg","4"),
-                            ("20","4","ElTrebol","Cable tipo taller 3x1,5/3x2,5/5x1,5mm","170"),
-                             ("21","4","Nacional","Manguera de desague","98"),
-                              ("22","5","Nacional","Aislacion 1/4, 3/4, 3/8, 1/2, 5/8","50"),
-                               ("23","5","Nacional","Caño de cobre 1/4, 3/4, 3/8, 1/2, 5/8","127"),
-                                ("24","5","Nacional","Bulones y tuercas","209"),
-                                 ("25","1","Bluestar","Espejo inspeccion","46"),
-                                  ("26","6","Varias","Plaqueta electronica A/C","138"),
-                                   ("27","6","Varias","Turbina","80"),
-                                    ("28","6","Varias","Motores","175"),
-                                     ("29","7","Nacional","Valvula 3 vias","22"),
-                                      ("30","7","Sanhua","Valvula inversora","36"),
-                                       ("31","8","Bluestar","Filtro molecular 10g","56"),
-                                        ("32","9","Bluestar","Sensor de temperatura","77"),
-                                         ("33","10","Elitech","Termometro digital","82"),
-                                          ("34","10","Bluestar","Manifold analogico","41"),
-                                           ("35","10","Testo","Manifold digital 557","3"),
-                                            ("36","10","Value","Balanza digital","4"),
-                                             ("37","10","Value","Pinza amperometrica","11"),
-                                              ("38","10","Unit","Multimetros","89");
                                               
 Insert into VENTAS values
 			   ("01","2024-01-03","93000","3","1","1"),
@@ -217,3 +180,6 @@ Insert into VENTAS values
                                          ("14","2024-01-25","1000000","1","35","1"),
                                            ("15","2024-01-26","240000","6","28","4"),
                                              ("16","2024-01-27","59600","5","11","2");
+                                             
+
+
