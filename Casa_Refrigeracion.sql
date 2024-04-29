@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS COMPRAS(
        ID_Proveedor INT,
        ID_Producto INT,
        Cantidad NUMERIC,
+	   Importe VARCHAR(15),
        FECHA DATE
 );
 CREATE TABLE IF NOT EXISTS EMPLEADOS(
@@ -114,7 +115,7 @@ JOIN VENTAS v ON p.ID_Producto = v.IDPRODUCTO
 GROUP BY p.ID_Producto, p.Descripcion
 ORDER BY Importe_Total DESC;
 
-SELECT * FROM  Productos_Mas_Vendidos;
+SELECT * FROM  VW_Productos_Mas_Vendidos;
 
 -- Esta vista muestra cuales son los clientes mas frecuentes
 CREATE VIEW VW_Clientes_Mas_Frecuentes AS
@@ -124,7 +125,7 @@ JOIN VENTAS v ON c.ID_Cliente = v.IDCliente
 GROUP BY c.ID_Cliente, Nombre_Completo
 ORDER BY Total_Compras DESC;
 
-SELECT * FROM Clientes_Mas_Frecuentes;
+SELECT * FROM VW_Clientes_Mas_Frecuentes;
 
 -- Esta vista muestra cuales son los productos con bajo STOCK
 CREATE VIEW VW_Productos_Bajo_Stock AS
@@ -134,7 +135,7 @@ WHERE CantidadSTOCK < 10;
 
 SELECT * FROM VW_Productos_Bajo_Stock;
 
--- Esta vista muestra la cantidad de ventas por mes
+-- Esta vista muestra el ingreso total generado por las ventas en el ultimo mes
 CREATE VIEW VW_Ventas_Por_Mes AS
 SELECT YEAR(Fecha) AS Año, MONTH(Fecha) AS Mes, SUM(Importe) AS Importe_Total_Ventas
 FROM VENTAS
@@ -150,16 +151,7 @@ FROM VENTAS
 WHERE Fecha BETWEEN '2024-01-01' AND '2025-01-01'  -- Rango de fechas deseado
 GROUP BY Fecha;
 
-CREATE VIEW VW_ClientesInactivos AS
-SELECT 
-    IDCliente,
-   Cantidad,
-   Importe,
-    Fecha
-FROM 
-    VENTAS
-WHERE 
-    Fecha < DATE_SUB(CURDATE(), INTERVAL 6 MONTH);
+SELECT * FROM VW_Ventas_Rango_Fechas;
 
 
 CREATE USER 'JulianGutierrez'@'localhost' IDENTIFIED BY 'JG2022';
@@ -255,47 +247,58 @@ BEGIN
 END//
 DELIMITER ;
 
-SELECT Calcular_total_ventas_cliente (3);
+SELECT FN_Calcular_total_ventas_cliente (5);
 
-/*La siguiente funcion sirve para verificar si hay la cantidad de stock disponible de cierto producto para realizar la venta*/
-DELIMITER //
-CREATE FUNCTION FN_verificar_disponibilidad_producto_venta(producto_id INT, cantidad_deseada INT) RETURNS BOOLEAN
-READS SQL DATA
-BEGIN
-    DECLARE stock_actual INT;
-    SELECT CantidadSTOCK INTO stock_actual
-    FROM PRODUCTOS
-    WHERE ID_Producto = producto_id;
-    
-    IF stock_actual >= cantidad_deseada THEN
-        RETURN TRUE;
-    ELSE
-        RETURN FALSE;
-    END IF;
-END//
-DELIMITER ;
-
-
-/*La siguiente funcion sirve para calcular la cantidad total de productos comprados durante el ultimo mes*/
 DELIMITER //
 
-CREATE FUNCTION FN_calcular_cantidad_total_productos_comprados_ultimo_mes(producto_id INT) RETURNS NUMERIC
+CREATE FUNCTION FN_Combo_con_descuento() RETURNS DECIMAL(10, 2)
 DETERMINISTIC
 BEGIN
-    DECLARE total_comprado NUMERIC;
-    DECLARE fecha_inicio DATE;
-    DECLARE fecha_fin DATE;
+    DECLARE total DECIMAL(10, 2);
+    DECLARE total_con_descuento DECIMAL(10, 2);
+    DECLARE caracteristicas TEXT;
+    DECLARE ids_productos VARCHAR(255);
+
+    -- Definir los IDs de productos
+    SET ids_productos = '17, 15, 20, 21, 22, 23, 10';
+
+    -- Inicializar la variable total
+    SET total = 0;
+
+    -- Construir la consulta para obtener el precio y características de los productos
+    SET @sql = CONCAT('SELECT SUM(Precio) AS Total_Precio, GROUP_CONCAT(CONCAT(ID_Producto, ": ", Descripcion) SEPARATOR "; ") AS Caracteristicas
+                      FROM PRODUCTOS
+                      WHERE ID_Producto IN (', ids_productos, ')');
+
+    -- Ejecutar la consulta dinámica y obtener el resultado directamente
+    SET @total_con_descuento = 0.85 * (SELECT SUM(Precio)
+                                        FROM PRODUCTOS
+                                        WHERE ID_Producto IN (', ids_productos, '));
     
-    SET fecha_inicio = DATE_SUB(LAST_DAY(CURRENT_DATE), INTERVAL 1 MONTH) + INTERVAL 1 DAY;
-    SET fecha_fin = LAST_DAY(CURRENT_DATE);
-    
-    SELECT SUM(Cantidad) INTO total_comprado
+    SET total_con_descuento = @total_con_descuento;
+
+    -- Devolver el total con descuento
+    RETURN total_con_descuento;
+END //
+
+DELIMITER ;
+
+SELECT FN_Combo_con_descuento();
+
+DELIMITER //
+
+CREATE FUNCTION FN_Calcular_Total_Por_Proveedor(proveedor_id INT)
+RETURNS DECIMAL(10, 2)
+BEGIN
+    DECLARE total DECIMAL(10, 2);
+
+    SELECT SUM(Cantidad * Precio)
+    INTO total
     FROM COMPRAS
-    WHERE ID_Producto = producto_id
-    AND FECHA BETWEEN fecha_inicio AND fecha_fin;
-    
-    RETURN total_comprado;
-END//
+    WHERE ID_Proveedor = proveedor_id;
+
+    RETURN total;
+END //
 
 DELIMITER ;
 
